@@ -6,6 +6,7 @@ import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
+import { Link, Outlet } from 'react-router-dom';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
@@ -88,4 +89,13 @@ export const ProfileUI: FC<ProfileUIProps> = ({
       </>
     </form>
   </main>
+);
+
+export const ProfileLayout = () => (
+  <>
+    <Link to='/profile' />
+    <Link to='/profile/orders' />
+    <Link to='/profile/orders/:number' />
+    <Outlet />
+  </>
 );
