@@ -20,13 +20,7 @@ const initialState: FeedsState = {
   error: null
 };
 
-export const getFeedsThunk = createAsyncThunk(
-  'feeds/getAll',
-  async (): Promise<TOrdersData> => {
-    const response = await getFeedsApi();
-    return response;
-  }
-);
+export const getFeedsThunk = createAsyncThunk('feeds/getAll', getFeedsApi);
 
 export const getOrderByNumberThunk = createAsyncThunk(
   'feeds/getByNumber',

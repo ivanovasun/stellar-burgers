@@ -3,14 +3,15 @@ import { LoginUI } from '@ui-pages';
 import { Preloader } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
 import { getUserThunk, loginUserThunk } from '../../slices/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { setCookie } from '../../utils/cookie';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
   const isLoading = useSelector((state) => state.user.isLoading);
+  const auth = useSelector((state) => state.user.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +29,6 @@ export const Login: FC = () => {
       ).unwrap();
       localStorage.setItem('refreshToken', response.refreshToken);
       setCookie('accessToken', response.accessToken);
-      await dispatch(getUserThunk());
       navigate('/', {
         replace: true
       });

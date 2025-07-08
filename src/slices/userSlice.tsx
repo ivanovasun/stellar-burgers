@@ -11,6 +11,7 @@ import {
   TLoginData
 } from '../utils/burger-api';
 import { TUser } from '@utils-types';
+import { deleteCookie } from '../utils/cookie';
 
 type ForgotPasswordData = {
   email: string;
@@ -69,14 +70,9 @@ export const registerUserThunk = createAsyncThunk(
   }
 );
 
-export const logoutUserThunk = createAsyncThunk('users/logout', async () => {
-  await logoutApi();
-});
+export const logoutUserThunk = createAsyncThunk('users/logout', logoutApi);
 
-export const getUserThunk = createAsyncThunk('users/getUser', async () => {
-  const response = await getUserApi();
-  return response;
-});
+export const getUserThunk = createAsyncThunk('users/getUser', getUserApi);
 
 export const updateUserThunk = createAsyncThunk(
   'users/update',
@@ -146,6 +142,7 @@ export const userSlice = createSlice({
         state.isInit = true;
         state.isLoading = false;
         state.error = action.error.message || 'пользователь не получен';
+        deleteCookie('accessToken');
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.isInit = true;

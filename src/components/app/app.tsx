@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../../index.css';
 import styles from './app.module.css';
 import { AppHeader, IngredientDetails, OrderInfo } from '@components';
@@ -18,8 +18,8 @@ import { Modal } from '../modal/modal';
 import { ProtectedRoute } from '../protected-route/ProtectedRoute';
 import { getIngredientsThunk } from '../../slices/ingredientsSlice';
 import { getUserThunk } from '../../slices/userSlice';
-import { useDispatch, useSelector } from '../../services/store';
-import { deleteCookie, getCookie } from '../../utils/cookie';
+import { useDispatch } from '../../services/store';
+import { getCookie } from '../../utils/cookie';
 import { clearCurrentOrder } from '../../slices/ordersSlice';
 import { ProfileLayout } from '../ui/pages/profile/profile';
 
@@ -28,8 +28,6 @@ export function App() {
   const navigate = useNavigate();
   const background = location.state?.background;
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.user.auth);
-  const accessToken = getCookie('accessToken');
 
   const handleCloseModal = () => {
     navigate(-1);
@@ -38,13 +36,8 @@ export function App() {
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
-    if (!auth && accessToken) {
-      dispatch(getUserThunk())
-        .unwrap()
-        .catch(() => {
-          deleteCookie('accessToken');
-          localStorage.removeItem('refreshToken');
-        });
+    if (getCookie('accessToken')) {
+      dispatch(getUserThunk()).unwrap();
     }
   }, [dispatch]);
 
