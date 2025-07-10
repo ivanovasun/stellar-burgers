@@ -1,17 +1,51 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { LoginUI } from '@ui-pages';
+import { Preloader } from '@ui';
+import { useDispatch, useSelector } from '../../services/store';
+import { getUserThunk, loginUserThunk } from '../../slices/userSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorText, setErrorText] = useState('');
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const auth = useSelector((state) => state.user.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      return setErrorText('все поля обязательны для заполнения');
+    }
+    try {
+      const response = await dispatch(
+        loginUserThunk({
+          email: email,
+          password: password
+        })
+      ).unwrap();
+      localStorage.setItem('refreshToken', response.refreshToken);
+      setCookie('accessToken', response.accessToken);
+      navigate('/', {
+        replace: true
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        setErrorText(err.message);
+      } else {
+        setErrorText('ошибка');
+      }
+    }
   };
 
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <LoginUI
-      errorText=''
+      errorText={errorText}
       email={email}
       setEmail={setEmail}
       password={password}
