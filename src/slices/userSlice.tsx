@@ -11,7 +11,6 @@ import {
   TLoginData
 } from '../utils/burger-api';
 import { TUser } from '@utils-types';
-import { deleteCookie } from '../utils/cookie';
 
 type ForgotPasswordData = {
   email: string;
@@ -39,7 +38,7 @@ export interface UserState {
   };
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isInit: false,
   isLoading: false,
   user: null,
@@ -130,8 +129,6 @@ export const userSlice = createSlice({
           refreshToken: action.payload.refreshToken,
           accessToken: action.payload.accessToken
         };
-        localStorage.setItem('accessToken', action.payload.accessToken);
-        localStorage.setItem('refreshToken', action.payload.refreshToken);
       })
       //получение данных пользователя
       .addCase(getUserThunk.pending, (state) => {
@@ -142,7 +139,6 @@ export const userSlice = createSlice({
         state.isInit = true;
         state.isLoading = false;
         state.error = action.error.message || 'пользователь не получен';
-        deleteCookie('accessToken');
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.isInit = true;
