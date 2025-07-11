@@ -2,12 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient } from '@utils-types';
 import { v4 } from 'uuid';
 
+<<<<<<< HEAD
 interface ConstructorState {
+=======
+export interface ConstructorState {
+>>>>>>> 8186dbb (tests done)
   bun: TIngredient | null;
   ingredients: TConstructorIngredient[];
 }
 
+<<<<<<< HEAD
 const initialState: ConstructorState = {
+=======
+export const initialState: ConstructorState = {
+>>>>>>> 8186dbb (tests done)
   bun: null,
   ingredients: []
 };

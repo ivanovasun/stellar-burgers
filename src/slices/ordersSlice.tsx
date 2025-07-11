@@ -13,7 +13,11 @@ interface OrdersState {
   error: string | null;
 }
 
+<<<<<<< HEAD
 const initialState: OrdersState = {
+=======
+export const initialState: OrdersState = {
+>>>>>>> 8186dbb (tests done)
   orders: [],
   orderModalData: null,
   orderRequest: false,

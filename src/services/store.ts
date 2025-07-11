@@ -11,7 +11,11 @@ import userReducer from '../slices/userSlice';
 import feedsReducer from '../slices/feedsSlice';
 import constructorReducer from '../slices/constructorSlice';
 
+<<<<<<< HEAD
 const rootReducer = combineReducers({
+=======
+export const rootReducer = combineReducers({
+>>>>>>> 8186dbb (tests done)
   ingredients: ingredientsReducer,
   orders: ordersReducer,
   user: userReducer,
@@ -19,7 +23,7 @@ const rootReducer = combineReducers({
   constructorBurger: constructorReducer
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });

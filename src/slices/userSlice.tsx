@@ -11,7 +11,10 @@ import {
   TLoginData
 } from '../utils/burger-api';
 import { TUser } from '@utils-types';
+<<<<<<< HEAD
 import { deleteCookie } from '../utils/cookie';
+=======
+>>>>>>> 8186dbb (tests done)
 
 type ForgotPasswordData = {
   email: string;
@@ -39,7 +42,11 @@ export interface UserState {
   };
 }
 
+<<<<<<< HEAD
 const initialState: UserState = {
+=======
+export const initialState: UserState = {
+>>>>>>> 8186dbb (tests done)
   isInit: false,
   isLoading: false,
   user: null,
@@ -130,8 +137,11 @@ export const userSlice = createSlice({
           refreshToken: action.payload.refreshToken,
           accessToken: action.payload.accessToken
         };
+<<<<<<< HEAD
         localStorage.setItem('accessToken', action.payload.accessToken);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
+=======
+>>>>>>> 8186dbb (tests done)
       })
       //получение данных пользователя
       .addCase(getUserThunk.pending, (state) => {
@@ -142,7 +152,10 @@ export const userSlice = createSlice({
         state.isInit = true;
         state.isLoading = false;
         state.error = action.error.message || 'пользователь не получен';
+<<<<<<< HEAD
         deleteCookie('accessToken');
+=======
+>>>>>>> 8186dbb (tests done)
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.isInit = true;
